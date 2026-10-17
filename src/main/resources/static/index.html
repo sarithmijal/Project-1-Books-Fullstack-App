@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Books - Page 1</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <span class="brand">Books</span>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="toolbar">
+        <div>
+          <h1>Books</h1>
+          <p class="subtitle">Data from your Spring Boot backend. Real-time search: updates on every keystroke.</p>
+        </div>
+        <div class="toolbar__right">
+          <div class="search" role="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-3.5-3.5"></path>
+            </svg>
+            <input id="search" type="search" placeholder="Search by title, author, ISBN or year..." autocomplete="off" aria-label="Search books" />
+          </div>
+          <button id="toggle-form" class="btn" type="button">+ Add book</button>
+        </div>
+      </section>
+
+      <div id="form-section" hidden></div>
+
+      <p id="results-count" class="status" aria-live="polite"></p>
+      <p id="error" class="error" hidden></p>
+      <section id="grid" class="grid"></section>
+      <p id="empty" class="empty" hidden></p>
+    </main>
+
+    <script src="js/card.js"></script>
+    <script src="js/cover.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/booksApi.js"></script>
+    <script src="js/book-form.js"></script>
+    <script src="js/book-modal.js"></script>
+    <script src="js/page1.js"></script>
+  </body>
+</html>
