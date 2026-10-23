@@ -1,0 +1,40 @@
+# Starts the 3 pieces: PostgreSQL + books-app (port 8080) + pokemon-app (port 8081)
+# Run it from this folder:  docker compose up -d --build
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: books_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data   # keeps your books when the container restarts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d books_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  books:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # These override application.properties, so no password is written in the code
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/books_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "8080:8080"
+
+  pokemon:
+    build: ../pokemon-app
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+
+volumes:
+  db_data:
