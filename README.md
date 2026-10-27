@@ -139,3 +139,15 @@ To build and publish them again from this project:
     docker compose push books pokemon
 
 The `DOCKERHUB_USER` variable in the `.env` file sets the Docker Hub username.
+
+## API Gateway (Nginx)
+
+The system has a single public entry point: an Nginx reverse proxy running in Docker on port 80.
+
+| URL | Goes to |
+|---|---|
+| `http://<server-ip>/` | `books` container (Page 1 and `/api/books`), internal port 8080 |
+| `http://<server-ip>/pokedex/` | `pokemon` container (Page 2), internal port 8081 |
+
+The configuration is in `nginx/default.conf` and the services are defined in `docker-compose.yml`.
+In the AWS Security Group only ports 80 (HTTP) and 22 (SSH) are open, so ports 8080 and 8081 are not exposed.
