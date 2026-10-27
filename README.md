@@ -118,3 +118,24 @@ books-app/
 ## Possible improvements
 
 Pagination, DTOs, global error handling (`@ControllerAdvice`), unit and integration tests, authentication, database migrations with Flyway.
+## Docker Hub
+
+The images of both applications are published on Docker Hub:
+
+| Image | Link |
+|---|---|
+| books-app | https://hub.docker.com/r/smchamorroc/books-app |
+| pokemon-app | https://hub.docker.com/r/smchamorroc/pokemon-app |
+
+To download them on any server:
+
+    docker pull smchamorroc/books-app:latest
+    docker pull smchamorroc/pokemon-app:latest
+
+To build and publish them again from this project:
+
+    docker login -u smchamorroc
+    docker compose build books pokemon
+    docker compose push books pokemon
+
+The `DOCKERHUB_USER` variable in the `.env` file sets the Docker Hub username.
