@@ -1,12 +1,15 @@
 # Starts the 4 pieces:
 #   gateway (Nginx, port 80)  ->  books (Spring Boot)  ->  db (PostgreSQL)
 #                             ->  pokemon (Spring Boot)
-# Only the gateway is reachable from the internet. The apps and the database have NO public ports.
+# Only the gateway is reachable from the internet. The apps have NO public ports.
+# The database port (5432) is open only between our own servers (Security Group).
 # Run it from this folder:  docker compose up -d --build
 services:
   db:
     image: postgres:17
     restart: unless-stopped
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: books_db
       POSTGRES_USER: postgres
@@ -28,7 +31,7 @@ services:
         condition: service_healthy
     environment:
       # These override application.properties, so no password is written in the code
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/books_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${DB_HOST:-db}:5432/books_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
     # no "ports": only the gateway can reach this container
